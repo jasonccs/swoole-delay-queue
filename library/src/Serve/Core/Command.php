@@ -46,7 +46,10 @@ class Command
                     if (!$stop) {
                         Logger::notice("Serve is not running.");
                     }
+                } else {
+                    Logger::notice("Serve is not running.");
                 }
+
                 break;
             case 'reload:all':
                 // 1. reload worker and task process.
