@@ -1,5 +1,5 @@
 <?php
-namespace app\service;
+namespace app\logic;
 
 use app\db\Order;
 use Serve\Colors\Color;
@@ -36,7 +36,7 @@ class Job
      */
     public function business($pdo, $data): void
     {
-//        Color::println("处理业务逻辑 ...", ColorText::YELLOW_FONT);
+        Color::println("处理业务逻辑 ...", ColorText::YELLOW_FONT);
 //         待支付订单,直接取消关闭
         $orderSn = $data['orderSn'];
         (new Order($pdo))->getOrder($orderSn)->cancelled();
