@@ -9,7 +9,7 @@ abstract class Server
     protected function getSwooleServer(): ?\Swoole\Server
     {
         date_default_timezone_set('Asia/Shanghai');
-        Extension::checkInstalled();
+        Extension::checkFailed();
         Logger::init();
 
         $this->serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));

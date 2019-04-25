@@ -2,6 +2,9 @@
 
 namespace Serve\Core;
 
+use Serve\Colors\Color;
+use Serve\Colors\ColorText;
+
 class Extension
 {
     private $versionCompare = [
@@ -13,46 +16,77 @@ class Extension
      * @var string
      * 获取扩展版本号
      */
-    private $versionModule = '0.0';
+    private $versionNumber = '0.0';
 
     /**
      * 判断扩展是否已安装
      */
     private function check()
     {
-        foreach ($this->versionCompare as $name => $version) {
-            if (!extension_loaded($name)) {
-                $now = \date('Y-m-d H:i:s');
-                exit("[ Boot failure ] $now The {$name} extension is not installed.\n");
-            }
+        $now = date('Y-m-d H:i:s');
 
-            $this->getVersion($name);
+        if ($this->isLinux())
+        {
+            $error = "[ ERROR ] {$now} Only support Linux system.";
+            $this->error($error);
+        }
+
+        if ($this->oldPhpVersion()) {
+            $error = "[ ERROR ] {$now} php version >= at least 7.3.4.";
+            $this->error($error);
+        }
+
+        foreach ($this->versionCompare as $name => $version) {
+            $this->getSoftWareVer($name);
             list ($newVersion, $operator) = [$version[0], $version[1]];
 
-            if (!version_compare($this->versionModule, $newVersion, $operator)) {
-                exit("[ Boot failure ] The {$name} extension is version {$this->versionModule} and must be {$operator} {$newVersion}\n");
+            if (!extension_loaded($name) || !version_compare($this->versionNumber, $newVersion, $operator)) {
+                $error = "[ ERROR ] {$now} {$name} version {$operator} at least {$newVersion} or extension is not installed.";
+                $this->error($error);
             }
         }
     }
 
+    private function isLinux(): bool
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return false;
+        }
+        return true;
+    }
+
+
     /**
-     * @param string $name
-     * @return string|null
-     * 通过扩展名称获取扩展版本
+     * @return bool
+     * PHP 版本检测
      */
-    private function getVersion(string $name): void
+    private function oldPhpVersion(): bool
+    {
+        if (version_compare(phpversion(), '7.3.4', '<')) {
+            return true;
+        }
+        return false;
+    }
+
+    private function error($error): void
+    {
+        Color::println($error, ColorText::RED_FONT);
+        exit;
+    }
+
+    private function getSoftWareVer(string $name): void
     {
         switch ($name) {
             case 'swoole':
-                $this->versionModule = \swoole_version();
+                $this->versionNumber = \swoole_version();
                 break;
 //            case 'seaslog':
-//                $this->versionModule = \seaslog_get_version();
+//                $this->versionNumber = \seaslog_get_version();
 //                break;
         }
     }
 
-    public static function checkInstalled(): void
+    public static function checkFailed(): void
     {
         (new self())->check();
     }
