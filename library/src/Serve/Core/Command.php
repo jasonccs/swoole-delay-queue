@@ -36,14 +36,16 @@ class Command
                 }
                 break;
             case 'stop':
-                $killed = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
-                // return -> killed all
-                if ($killed) {
-                    Logger::notice("Serve has stopped.");
-                }
-                // return false  -> 没有运行
-                if (!$killed) {
-                    Logger::notice("Serve is not running.");
+                if (Server::isRunning())
+                {
+                    $stop = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
+                    if ($stop) {
+                        Logger::notice("Serve has stopped.");
+                    }
+                    // return false  -> 没有运行
+                    if (!$stop) {
+                        Logger::notice("Serve is not running.");
+                    }
                 }
                 break;
             case 'reload:all':
