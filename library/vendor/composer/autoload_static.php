@@ -46,7 +46,7 @@ class ComposerStaticInit4073a0c00c691e25b6f9dce059850347
 
     public static $classMap = array (
         'app\\db\\Order' => __DIR__ . '/../..' . '/../app/db/Order.php',
-        'app\\service\\Job' => __DIR__ . '/../..' . '/../app/logic/Job.php',
+        'app\\logic\\Job' => __DIR__ . '/../..' . '/../app/logic/Job.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

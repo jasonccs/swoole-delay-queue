@@ -8,8 +8,7 @@
 
 namespace Serve\Core;
 
-
-use app\service\Job;
+use app\logic\Job;
 use Serve\Colors\Color;
 use Serve\Colors\ColorText;
 use Serve\Exception\JobClassNotFoundException;
@@ -27,7 +26,7 @@ class Serve extends Server
         require_once dirname(__DIR__) . '/../'.PathManager::JOB_PATH;
 
         try {
-            if (!class_exists('App\service\Job')) {
+            if (!class_exists('app\logic\Job')) {
                 throw new JobClassNotFoundException();
             }
         } catch (JobClassNotFoundException $e) {

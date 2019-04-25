@@ -7,5 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'app\\db\\Order' => $baseDir . '/../app/db/Order.php',
-    'app\\service\\Job' => $baseDir . '/../app/logic/Job.php',
+    'app\\logic\\Job' => $baseDir . '/../app/logic/Job.php',
 );
