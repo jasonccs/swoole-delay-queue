@@ -1,17 +1,21 @@
 ### Serve 基于Swoole Server 编写的消息队列消费系统
 #### 已支持功能:
 
-- 目前通过./serve start 命令启动
+- 目前通过php serve start 命令启动
 - 守护进程化、打开app/config/Serve.ini [Swoole] daemonize => true 即可
-- 系统已上线、可以通过命令：./serve reload 或者 reload:all 更新业务代码
+- 系统已上线、可以通过命令：php serve reload 或者 reload:all 更新业务代码
 - 支持数据库操作、目前消息端暂只支持Redis List
 - 后期支持Kafaka、RabbitMQ，还待改进
 
 ##### 提醒：
  - 待后更新 .....
-##### 运行效果图：
-![image](https://github.com/twomiao/Serve/raw/master/img/start.png "Serve运行效果")
-
+#### 运行效果：
+- 启动命令 "php serve start"
+![image](https://github.com/twomiao/Serve/raw/master/img/start.png "启动画面")
+![image](https://github.com/twomiao/Serve/raw/master/img/test.png "运行画面")
+- 热更新命令 "php serve reload"
+![image](https://github.com/twomiao/Serve/raw/master/img/reload.png "热更新代码前")
+![image](https://github.com/twomiao/Serve/raw/master/img/reload02.png "热更新代码后")
 
 # How to use?
 
