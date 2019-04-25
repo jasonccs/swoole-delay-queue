@@ -8,39 +8,9 @@
 - 后期支持Kafaka、RabbitMQ，还待改进
 
 ##### 提醒：
- - vim ./serve文件,第一行脚本声明改为你的PHP.exe位置。举个例子：/usr/local/php/bin/*****
  - 待后更新 .....
 ##### 运行效果图：
-ncopy在CODE上查看代码片派生到我的代码片 
-![Serve](http://www.baiud.com/baidu.logo "Serve运行效果")  
-    
-```
-[root@VM_146_146_centos app]# ./serve start
-[ INFO ] 2019-04-23 22:14:51 Business server started, Master pid is: 25713.
-[ √ ] TaskWorker:9 started.
-[ √ ] TaskWorker:8 started.
-[ √ ] TaskWorker:11 started.
-[ √ ] TaskWorker:10 started.
-[ √ ] TaskWorker:12 started.
-[ √ ] TaskWorker:13 started.
-[ √ ] Worker:0 started.
-[ √ ] TaskWorker:14 started.
-[ √ ] Worker:1 started.
-[ √ ] TaskWorker:15 started.
-[ √ ] Worker:4 started.
-[ √ ] Worker:2 started.
-[ √ ] Worker:6 started.
-[ √ ] Worker:3 started.
-[ √ ] Worker:7 started.
-[ √ ] Worker:5 started.
-处理业务逻辑 ...
-处理业务逻辑 ...
-处理业务逻辑 ...
-处理业务逻辑 ...
-处理业务逻辑 ...
-处理业务逻辑 ...
-处理业务逻辑 ...
-```
+![image](https://github.com/twomiao/Serve/raw/master/img/start.png "Serve运行效果")
 
 
 # How to use?
