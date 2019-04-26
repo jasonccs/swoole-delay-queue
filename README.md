@@ -4,7 +4,7 @@
 - 后期支持Kafaka、RabbitMQ，还待改进 ....
 
 ##### 环境要求：
- - PHP v7.3.4 和 Swoole v4.3.3
+ - PHP >= v7.1.0 和 Swoole >= v4.x
  - redis 延时特性, Linux 下载地址 wget https://github.com/mix-basic/delayer/releases
  - 待后更新 .....
  
