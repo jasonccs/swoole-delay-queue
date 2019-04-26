@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/4 0004
- * Time: 下午 21:49
- */
-
 namespace Serve\Core;
 
 

@@ -12,7 +12,7 @@
 namespace Predis\Profile;
 
 /**
- * Server profile for the current unstable version of Redis.
+ * Resque profile for the current unstable version of Redis.
  *
  * @author Daniele Alessandri <suppakilla@gmail.com>
  */

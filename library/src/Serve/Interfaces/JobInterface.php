@@ -11,7 +11,7 @@ namespace Serve\Interfaces;
 
 /**
  * Interface JobInterface
- * @package Serve\Interfaces
+ * @package Resque\Interfaces
  * 处理任务的接口
  */
 interface JobInterface

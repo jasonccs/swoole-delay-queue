@@ -1,28 +1,31 @@
 <?php
+
 namespace Serve\Core;
 
 class Env
 {
     /**
      * @var null
-     * 读取出来的全部配置参数
+     * 获取配置文件参数数据
      */
-    private static $mapData = null;
+    private static $config = null;
 
-    public static function get(string $name): ?string // swoole.host
+    public static function get(string $name): ?string
     {
-        $param = self::$mapData ?: self::$mapData;
-        if ($param) {
-            list($outer, $inner) = explode('.', $name);
-            return $param[$outer][$inner] ?? null;
+        $data = self::$config ?? null;
+        // 有数据,进行解析
+        if ($data) {
+            list($key, $val) = explode('.', $name);
+            return $data[$key][$val] ?? null;
         }
-        return null;
+        return $data;
     }
 
     public static function load(): ?array
     {
-        require_once PathManager::getFunctionsPath();
-        self::$mapData = parse_ini_file(PathManager::getConfigPath(), true);
-        return self::$mapData;
+        $config = APP_PATH . DS . 'config' . DS . 'Serve.ini';
+        require_once  APP_PATH . DS . 'functions' . DS . 'functions.php';
+        self::$config = parse_ini_file($config, true);
+        return self::$config;
     }
 }

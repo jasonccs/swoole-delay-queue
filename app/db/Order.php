@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/3/30 0030
- * Time: 下午 17:20
- */
-
 namespace app\db;
 
 class Order

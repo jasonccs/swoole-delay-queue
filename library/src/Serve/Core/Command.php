@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/15 0015
- * Time: 下午 12:31
- */
-
 namespace Serve\Core;
 
+use Serve\Resque\Serve;
+use Serve\Resque\Server;
 
 class Command
 {
@@ -32,7 +27,7 @@ class Command
                     Serve::run();
                 } else {
                     $masterPid = Server::getMasterPid();
-                    Logger::notice("Serve is running, Master pid is: {$masterPid}.");
+                    Logger::notice("Resque is running, Master pid is: {$masterPid}.");
                 }
                 break;
             case 'stop':
@@ -40,16 +35,15 @@ class Command
                 {
                     $stop = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
                     if ($stop) {
-                        Logger::notice("Serve has stopped.");
+                        Logger::notice("Resque has stopped.");
                     }
                     // return false  -> 没有运行
                     if (!$stop) {
-                        Logger::notice("Serve is not running.");
+                        Logger::notice("Resque is not running.");
                     }
                 } else {
-                    Logger::notice("Serve is not running.");
+                    Logger::notice("Resque is not running.");
                 }
-
                 break;
             case 'reload:all':
                 // 1. reload worker and task process.
@@ -58,14 +52,14 @@ class Command
                     Logger::notice("Task process and worker process reload succeed.");
                 }
                 if (!$reloadOk) {
-                    Logger::notice("Serve is not running.");
+                    Logger::notice("Resque is not running.");
                 }
                 break;
             case 'reload':
                 if (Server::reloadTaskWorker()) {
                     Logger::notice("Task process reload succeed.");
                 } else {
-                    Logger::notice("Serve is not running.");
+                    Logger::notice("Resque is not running.");
                 }
                 break;
             default:

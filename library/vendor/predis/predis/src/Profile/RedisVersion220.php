@@ -12,7 +12,7 @@
 namespace Predis\Profile;
 
 /**
- * Server profile for Redis 2.2.
+ * Resque profile for Redis 2.2.
  *
  * @author Daniele Alessandri <suppakilla@gmail.com>
  */

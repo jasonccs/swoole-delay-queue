@@ -27,7 +27,7 @@ class ProfileOption implements OptionInterface
      * Sets the commands processors that need to be applied to the profile.
      *
      * @param OptionsInterface $options ClientInterface options.
-     * @param ProfileInterface $profile Server profile.
+     * @param ProfileInterface $profile Resque profile.
      */
     protected function setProcessors(OptionsInterface $options, ProfileInterface $profile)
     {

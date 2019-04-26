@@ -1,14 +1,14 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : remote
- Source Server Type    : MySQL
- Source Server Version : 50725
+ Source Resque         : remote
+ Source Resque Type    : MySQL
+ Source Resque Version : 50725
  Source Host           : 118.24.84.222:3306
  Source Schema         : webim
 
- Target Server Type    : MySQL
- Target Server Version : 50725
+ Target Resque Type    : MySQL
+ Target Resque Version : 50725
  File Encoding         : 65001
 
  Date: 23/04/2019 23:06:19

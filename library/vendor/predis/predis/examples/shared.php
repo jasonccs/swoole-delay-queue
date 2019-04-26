@@ -13,8 +13,8 @@ require __DIR__.'/../autoload.php';
 
 function redis_version($info)
 {
-    if (isset($info['Server']['redis_version'])) {
-        return $info['Server']['redis_version'];
+    if (isset($info['Resque']['redis_version'])) {
+        return $info['Resque']['redis_version'];
     } elseif (isset($info['redis_version'])) {
         return $info['redis_version'];
     } else {

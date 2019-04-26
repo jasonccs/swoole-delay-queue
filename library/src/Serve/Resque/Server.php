@@ -1,12 +1,25 @@
 <?php
 
-namespace Serve\Core;
+namespace Serve\Resque;
+
+use Serve\Core\Extension;
+use Serve\Core\Logger;
+use Serve\Core\ProcessHelper;
 
 abstract class Server
 {
     private $serve = null;
 
-    protected function getSwooleServer(): ?\Swoole\Server
+    private $events = array(
+        'Receive'        => 'onReceive',
+        'ManagerStart' => 'onManagerStart',
+        'Start' => 'onStart',
+        'WorkerStart' => 'onWorkerStart',
+        'Task' => 'onTask',
+        'Finish' => 'onFinish',
+    );
+
+    protected function getServe(): ?\Swoole\Server
     {
         date_default_timezone_set('Asia/Shanghai');
         Extension::checkFailed();
@@ -22,24 +35,25 @@ abstract class Server
             'task_max_request'=> env('swoole.task_max_request'),
         ]);
 
-        $callbacks = array(
-            'Receive'        => [$this, 'onReceive'],
-            'ManagerStart'   => [$this, 'onManagerStart'],
-            'Start'          => [$this, 'onStart'],
-            'WorkerStart'    => [$this, 'onWorkerStart'],
-            'Task'           => [$this, 'onTask'],
-            'Finish'         => [$this, 'onFinish'],
-        );
-
-        foreach ($callbacks as $event => $callback) {
-            $this->serve->on($event, $callback);
+        foreach ($this->events as $name => $val)
+        {
+            $callback = array(
+                $this,
+                $val
+            );
+            $this->serve->on($name, $callback);
         }
         return $this->serve;
     }
 
+    public function onReceive(\swoole_server $server, $fd, $reactorId, $data)
+    {
+        //todo:: 后期扩展 SWOOLE_CLIENT
+    }
+
     /**
      * @return bool
-     * Business Server 进程是否已经运行
+     * Business Resque 进程是否已经运行
      */
     public static function isRunning(): bool
     {
@@ -84,15 +98,15 @@ abstract class Server
         return 0;
     }
 
-    public function onStart($serve)
+    public function onStart($server)
     {
-        ProcessHelper::saveMasterPid($serve->master_pid);
+        ProcessHelper::saveMasterPid($server->master_pid);
         $pidMaster = self::getMasterPid();
         Logger::notice("Business server started, Master pid is: {$pidMaster}.");
         ProcessHelper::setProcessName("Master: p{$pidMaster}");
     }
 
-    public function onManagerStart($serve)
+    public function onManagerStart($server)
     {
         ProcessHelper::setProcessName('Manager');
     }

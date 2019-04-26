@@ -1,12 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/3/31 0031
- * Time: 下午 21:40
- */
-
 require_once dirname(__DIR__) . '/../library/vendor/autoload.php';
+
+defined ('APP_PATH') or define('APP_PATH', __DIR__ . '/..');
+defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
 
 $len = isset($argv[1]) ? $argv[1] : 1;
 \Serve\Core\Env::load();

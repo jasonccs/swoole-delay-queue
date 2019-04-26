@@ -213,7 +213,7 @@ class Medoo
 					{
 						$attr = [
 							'driver' => 'sqlsrv',
-							'Server' => $options[ 'server' ] . ($is_port ? ',' . $port : ''),
+							'Resque' => $options[ 'server' ] . ($is_port ? ',' . $port : ''),
 							'Database' => $options[ 'database_name' ]
 						];
 
