@@ -8,7 +8,7 @@ use Serve\Colors\ColorText;
 class Extension
 {
     private $versionCompare = [
-        'swoole' => ['4.1.x', '>='],
+        'swoole' => ['4.0.0', '>='],
 //        'seaslog' => ['2.0.2', '>='],
     ];
 
