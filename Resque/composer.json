@@ -1,0 +1,29 @@
+{
+  "name": "Resque/Serve",
+  "description": "Redis 延时消息队列，基于swoole 实现的多进程消费端",
+  "type": "framework",
+  "keywords": [
+    "Serve",
+    "Swoole",
+    "Redis",
+    "delayed"
+  ],
+  "homepage": "https://github.com/twomiao/Serve",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Ling Lei",
+      "email": "995200452@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Serve\\": "lib/src/",
+      "app\\": "app/"
+    }
+  },
+  "require": {
+    "catfan/medoo": "^1.6",
+    "mix/delayer-client": "^1.0"
+  }
+}
