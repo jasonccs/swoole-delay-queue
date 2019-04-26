@@ -1,7 +1,6 @@
 {
   "name": "Resque/Serve",
   "description": "Redis 延时消息队列，基于swoole 实现的多进程消费端",
-  "type": "framework",
   "keywords": [
     "Serve",
     "Swoole",
@@ -12,7 +11,7 @@
   "license": "Apache-2.0",
   "authors": [
     {
-      "name": "Ling Lei",
+      "name": "twomiao",
       "email": "995200452@qq.com"
     }
   ],
