@@ -8,7 +8,7 @@ use Serve\Colors\ColorText;
 class Extension
 {
     private $versionCompare = [
-        'swoole' => ['4.3.1', '>='],
+        'swoole' => ['4.1.x', '>='],
 //        'seaslog' => ['2.0.2', '>='],
     ];
 
@@ -25,14 +25,15 @@ class Extension
     {
         $now = date('Y-m-d H:i:s');
 
-        if ($this->isLinux())
+        // 非Windows 系统正常运行
+        if (!$this->isLinux())
         {
             $error = "[ ERROR ] {$now} Only support Linux system.";
             $this->error($error);
         }
 
         if ($this->oldPhpVersion()) {
-            $error = "[ ERROR ] {$now} php version >= at least 7.3.4.";
+            $error = "[ ERROR ] {$now} php version >= at least 7.1.0.";
             $this->error($error);
         }
 
@@ -50,9 +51,9 @@ class Extension
     private function isLinux(): bool
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
 
