@@ -13,6 +13,6 @@ class MailBox
 {
     static function send()
     {
-        print "send success" . PHP_EOL;
+        print "MailBox::send success" . PHP_EOL;
     }
 }

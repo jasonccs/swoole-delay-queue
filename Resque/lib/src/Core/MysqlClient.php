@@ -9,7 +9,6 @@
 namespace Serve\Core;
 
 use Medoo\Medoo;
-use Serve\Exception\BaseException;
 
 class MysqlClient
 {
