@@ -62,7 +62,7 @@ class Extension
      */
     private function oldPhpVersion(): bool
     {
-        if (version_compare(phpversion(), '7.3.4', '<')) {
+        if (version_compare(phpversion(), '7.1.0', '<')) {
             return true;
         }
         return false;
