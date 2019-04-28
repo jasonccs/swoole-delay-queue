@@ -57,12 +57,13 @@ abstract class Logger implements LoggerInterface
 
     public static function notice(string $message, $info = true)
     {
+        $now = date('Y-m-d H:i:s');
         if ($info) {
-            $title = "[ INFO ] " . date('Y-m-d H:i:s')  . " {$message}";
+            $title = "{$now} [ INFO ] => {$message}";
             Color::println($title, ColorText::BLUE_FONT);
             return;
         } else {
-            $title = "[WARNING] " . date('Y-m-d H:i:s') .  " {$message}";
+            $title = "{$now} [ WARNNING ] => {$message}";
             Color::println($title, ColorText::RED_FONT);
         }
     }

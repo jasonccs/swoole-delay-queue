@@ -54,13 +54,14 @@ class Serve extends Server implements EventInterface
     {
         $this->job->business($server->pdo, json_decode($data, true));
         $data = substr($data, 0, 45) . ' .....';
-        $server->finish("Queue message processing successful: {$data}");
+        $server->finish("{$data}");
     }
 
     public function onFinish($server, $taskId, $data)
     {
-        Color::print("[ task:{$taskId} ]", ColorText::YELLOW_FONT);
-        Color::println($data, ColorText::GREEN_FONT);
+        $now = date('Y-m-d H:i:s');
+        Color::print("{$now} [ DEBUG ] =>", ColorText::YELLOW_FONT);
+        Color::println("task:{$taskId} has been completed. {$data}", ColorText::GREEN_FONT);
     }
 
     final public static function run()
