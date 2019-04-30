@@ -104,7 +104,7 @@ abstract class Server
     {
         ProcessHelper::saveMasterPid($server->master_pid);
         $pidMaster = self::getMasterPid();
-        Log::notice("Resque started, Master pid is: {$pidMaster}.");
+        Log::info("Resque started, Master pid is: {$pidMaster}.");
         ProcessHelper::setProcessName("Master: p{$pidMaster}");
     }
 
