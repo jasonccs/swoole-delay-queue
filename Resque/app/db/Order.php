@@ -25,11 +25,11 @@ class Order
     {
         $order = $this->order;
         if ($order) {
-            if ($order['orderStats'] == Order::UNPAID_STATUS) {
+            if ($order['order_stats'] == Order::UNPAID_STATUS) {
                 if ($this->pdo) {
                     $this->pdo->update($this->table,
                         [
-                            "{$this->table}.orderStats" => Order::CANCEL_STATUS,
+                            "{$this->table}.order_stats" => Order::CANCEL_STATUS,
                             "{$this->table}.updated_at" => date('Y-m-d H:i:s')
                         ],
                         ["id" => $order['id']]
@@ -43,10 +43,10 @@ class Order
 
     public function getOrder($orderSn)
     {
-        $this->order = $this->pdo->get($this->table, ['id', 'orderStats', 'orderSn', 'create_at'],
+        $this->order = $this->pdo->get($this->table, ['id', 'order_stats', 'order_sn', 'create_at'],
             [
-                "{$this->table}.orderSn" => $orderSn,
-                "{$this->table}.orderSn" => $orderSn,
+                "{$this->table}.order_sn" => $orderSn,
+                "{$this->table}.order_sn" => $orderSn,
             ]
         );
         return $this;

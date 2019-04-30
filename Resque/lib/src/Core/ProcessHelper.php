@@ -2,6 +2,11 @@
 namespace Serve\Core;
 
 
+/**
+ * Class ProcessHelper
+ * @package Serve\Core
+ * @author twomiao
+ */
 class ProcessHelper
 {
     const PROCESS_NAME_PREFIX = "redis:queue %s";
@@ -46,6 +51,6 @@ class ProcessHelper
      * 获取主进程PID位置
      */
     public static function getMasterPidFile() {
-        return env('swoole.master_pid_file');
+        return '/var/run/serve.pid';
     }
 }

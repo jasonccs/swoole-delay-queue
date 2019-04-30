@@ -13,8 +13,8 @@ $mysql = \Serve\Core\ClientFactory::makeClient('mysql');
 
 for ($i = 1; $i <= $len; $i++) {
     $data = [
-        'orderSn'    => '2018101712578956648' . mt_rand(100000, 900000),
-        'orderStats' => \app\db\Order::UNPAID_STATUS,
+        'order_sn'    => '2018101712578956648' . mt_rand(100000, 900000),
+        'order_stats' => \app\db\Order::UNPAID_STATUS,
         'create_at'  => time(),
         'created_at' => date('Y-m-d H:i:s')
     ];

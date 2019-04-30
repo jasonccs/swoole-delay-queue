@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/6 0006
- * Time: 下午 22:21
- */
-
 namespace Serve\Core;
 
+/**
+ * Class RedisClient
+ * @package Serve\Core
+ * @author twomiao
+ */
 class RedisClient
 {
     private $delayRedis = null;

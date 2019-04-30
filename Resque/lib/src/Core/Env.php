@@ -27,6 +27,5 @@ class Env
         $config = APP_PATH . DS . 'config' . DS . 'Serve.ini';
         require_once APP_PATH . DS . 'functions' . DS . 'functions.php';
         self::$config = parse_ini_file($config, true);
-       // return self::$config;
     }
 }

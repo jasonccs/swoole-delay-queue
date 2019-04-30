@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/26 0026
- * Time: 上午 0:18
- */
-
 namespace Serve\Interfaces;
 
 interface EventInterface

@@ -3,7 +3,7 @@
 namespace Serve\Resque;
 
 use Serve\Core\Extension;
-use Serve\Core\Logger;
+use Serve\Core\Log;
 use Serve\Core\ProcessHelper;
 
 abstract class Server
@@ -11,7 +11,7 @@ abstract class Server
     private $serve = null;
 
     private $events = array(
-        'Receive'        => 'onReceive',
+        'Receive' => 'onReceive',
         'ManagerStart' => 'onManagerStart',
         'Start' => 'onStart',
         'WorkerStart' => 'onWorkerStart',
@@ -23,20 +23,22 @@ abstract class Server
     {
         date_default_timezone_set('Asia/Shanghai');
         Extension::checkFailed();
-        Logger::init();
+        Log::init();
 
         $this->serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));
+
+        $log = Log::getLogDir() . DS . 'serve_' . date('YmdHis') . '.log';
+
         $this->serve->set([
-            'worker_num'      => env('swoole.worker_num'),
-            'daemonize'       => env('swoole.daemonize'),
-            'log_file'        => env('swoole.log_dir'),
+            'worker_num' => env('swoole.worker_num'),
+            'daemonize' => env('swoole.daemonize'),
+            'log_file' => $log,
             'task_worker_num' => env('swoole.task_worker_num'),
-            'max_request'     => env('swoole.max_request'),
-            'task_max_request'=> env('swoole.task_max_request'),
+            'max_request' => env('swoole.max_request'),
+            'task_max_request' => env('swoole.task_max_request'),
         ]);
 
-        foreach ($this->events as $name => $val)
-        {
+        foreach ($this->events as $name => $val) {
             $callback = array(
                 $this,
                 $val
@@ -102,7 +104,7 @@ abstract class Server
     {
         ProcessHelper::saveMasterPid($server->master_pid);
         $pidMaster = self::getMasterPid();
-        Logger::notice("Resque started, Master pid is: {$pidMaster}.");
+        Log::notice("Resque started, Master pid is: {$pidMaster}.");
         ProcessHelper::setProcessName("Master: p{$pidMaster}");
     }
 

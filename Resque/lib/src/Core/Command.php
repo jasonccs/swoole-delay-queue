@@ -4,6 +4,11 @@ namespace Serve\Core;
 use Serve\Resque\Serve;
 use Serve\Resque\Server;
 
+/**
+ * Class Command
+ * @package Serve\Core
+ * @author twomiao
+ */
 class Command
 {
     private $cmd = '';
@@ -14,7 +19,7 @@ class Command
         if (ini_get('register_argc_argv')) {
             $this->cmd = $cmd[1] ?? '';
         } else {
-            Logger::notice("Turn on register_argc_argv in the php.ini file.");
+            Log::info("Turn on register_argc_argv in the php.ini file.");
         }
     }
 
@@ -27,7 +32,7 @@ class Command
                     Serve::run();
                 } else {
                     $masterPid = Server::getMasterPid();
-                    Logger::notice("Resque is running, Master pid is: {$masterPid}.");
+                    Log::info("Resque is running, Master pid is: {$masterPid}.");
                 }
                 break;
             case 'stop':
@@ -35,31 +40,31 @@ class Command
                 {
                     $stop = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
                     if ($stop) {
-                        Logger::notice("Resque has stopped.");
+                        Log::info("Resque has stopped.");
                     }
                     // return false  -> 没有运行
                     if (!$stop) {
-                        Logger::notice("Resque is not running.");
+                        Log::info("Resque is not running.");
                     }
                 } else {
-                    Logger::notice("Resque is not running.");
+                    Log::info("Resque is not running.");
                 }
                 break;
             case 'reload:all':
                 // 1. reload worker and task process.
                 $reloadOk = Server::reloadAll();
                 if ($reloadOk) {
-                    Logger::notice("Task process and worker process reload succeed.");
+                    Log::info("Task process and worker process reload succeed.");
                 }
                 if (!$reloadOk) {
-                    Logger::notice("Resque is not running.");
+                    Log::info("Resque is not running.");
                 }
                 break;
             case 'reload':
                 if (Server::reloadTaskWorker()) {
-                    Logger::notice("Task process reload succeed.");
+                    Log::info("Task process reload succeed.");
                 } else {
-                    Logger::notice("Resque is not running.");
+                    Log::info("Resque is not running.");
                 }
                 break;
             default:

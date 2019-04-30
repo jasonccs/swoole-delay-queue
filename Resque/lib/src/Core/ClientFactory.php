@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/6 0006
- * Time: 下午 22:28
- */
-
 namespace Serve\Core;
-
 
 use Serve\Interfaces\ClientInterface;
 
+/**
+ * Class ClientFactory
+ * @package Serve\Core
+ * @author twomiao
+ */
 class ClientFactory implements ClientInterface
 {
     public static function makeClient(string $clientName)
