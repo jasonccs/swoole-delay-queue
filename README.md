@@ -40,9 +40,14 @@ php serve start
 ### Job Code
 
 ```php
-namespace app\service;
+<?php
+namespace app\logic;
 
 use app\db\Order;
+use app\util\MailBox;
+use app\util\Sms;
+use app\util\WxMessage;
+use app\util\WxPay;
 use Serve\Colors\Color;
 use Serve\Colors\ColorText;
 
@@ -77,9 +82,10 @@ class Job
      */
     public function business($pdo, $data): void
     {
-        Color::println("处理业务逻辑 ...", ColorText::YELLOW_FONT);
+        MailBox::send();
 //         待支付订单,直接取消关闭
-        $orderSn = $data['orderSn'];
+        $order = json_decode($data, true);
+        $orderSn = $order['order_sn'];
         (new Order($pdo))->getOrder($orderSn)->cancelled();
     }
 }
