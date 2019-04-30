@@ -12,7 +12,7 @@
 - 启动命令 "php serve start"
 ![image](https://github.com/twomiao/Serve/raw/master/img/start.png "启动画面")
 ![image](https://github.com/twomiao/Serve/raw/master/img/test.png "热更新代码前")
-- 热更新命令 "php serve reload" pS: 会发现少了“处理业务逻辑...”,说明代码生效
+- 热更新命令 "php serve reload",发现少了文字提醒“MailBox::send success”
 ![image](https://github.com/twomiao/Serve/raw/master/img/reload.png "热更新命令执行后")
 ![image](https://github.com/twomiao/Serve/raw/master/img/reload02.png "热更新代码后")
 
