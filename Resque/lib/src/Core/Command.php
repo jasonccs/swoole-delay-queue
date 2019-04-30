@@ -1,4 +1,5 @@
 <?php
+
 namespace Serve\Core;
 
 use Serve\Resque\Serve;
@@ -26,6 +27,7 @@ class Command
     public function execute()
     {
         Env::load();
+        Log::init();
         switch (strtolower($this->cmd)) {
             case 'start':
                 if (!Server::isRunning()) {
@@ -36,8 +38,7 @@ class Command
                 }
                 break;
             case 'stop':
-                if (Server::isRunning())
-                {
+                if (Server::isRunning()) {
                     $stop = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
                     if ($stop) {
                         Log::info("Resque has stopped.");

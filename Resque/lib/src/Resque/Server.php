@@ -23,7 +23,6 @@ abstract class Server
     {
         date_default_timezone_set('Asia/Shanghai');
         Extension::checkFailed();
-        Log::init();
 
         $this->serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));
 
