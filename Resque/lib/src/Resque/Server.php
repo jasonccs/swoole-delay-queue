@@ -2,15 +2,29 @@
 
 namespace Serve\Resque;
 
-use Serve\Core\Extension;
+use Serve\Core\Environment;
 use Serve\Core\Log;
-use Serve\Core\ProcessHelper;
+use Serve\Core\Process;
 
+/**
+ * Class Server
+ * @package Serve\Resque
+ * @version v1.0.1
+ * @author twomiao
+ */
 abstract class Server
 {
-    private $serve = null;
+    /**
+     * @var null
+     * swoole handle
+     */
+    private $_serve = null;
 
-    private $events = array(
+    /**
+     * @var array
+     * swoole 事件
+     */
+    protected $events = array(
         'Receive' => 'onReceive',
         'ManagerStart' => 'onManagerStart',
         'Start' => 'onStart',
@@ -19,19 +33,24 @@ abstract class Server
         'Finish' => 'onFinish',
     );
 
-    protected function getServe(): ?\Swoole\Server
+    protected function getSwoole(): ?\Swoole\Server
     {
         date_default_timezone_set('Asia/Shanghai');
-        Extension::checkFailed();
 
-        $this->serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));
+        Environment::checkOrFailed();
 
-        $log = Log::getLogDir() . DS . 'serve_' . date('YmdHis') . '.log';
+        $this->_serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));
 
-        $this->serve->set([
+        $initLog = Log::getLogDir() . 'error' . DS;
+        if (!is_dir($initLog)) {
+            @mkdir($initLog, 0777, true);
+        }
+        $initLog .=  date('Ymd') . '.log';
+
+        $this->_serve->set([
             'worker_num' => env('swoole.worker_num'),
             'daemonize' => env('swoole.daemonize'),
-            'log_file' => $log,
+            'log_file' => $initLog,
             'task_worker_num' => env('swoole.task_worker_num'),
             'max_request' => env('swoole.max_request'),
             'task_max_request' => env('swoole.task_max_request'),
@@ -42,9 +61,9 @@ abstract class Server
                 $this,
                 $val
             );
-            $this->serve->on($name, $callback);
+            $this->_serve->on($name, $callback);
         }
-        return $this->serve;
+        return $this->_serve;
     }
 
     public function onReceive(\swoole_server $server, $fd, $reactorId, $data)
@@ -52,63 +71,16 @@ abstract class Server
         //todo:: 后期扩展 SWOOLE_CLIENT
     }
 
-    /**
-     * @return bool
-     * Business Resque 进程是否已经运行
-     */
-    public static function isRunning(): bool
-    {
-        $pidFile = ProcessHelper::getMasterPidFile();
-        if (file_exists($pidFile)) {
-            $masterPid = @file_get_contents($pidFile);
-            if (intval($masterPid) > 0 && is_numeric($masterPid)) {
-                if (\Swoole\Process::kill($masterPid, 0)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public static function reloadAll(): bool
-    {
-        $masterPid = Server::getMasterPid();
-        if ($masterPid > 0) {
-            return ProcessHelper::killBySig($masterPid, SIGUSR1);
-        }
-        return false;
-    }
-
-    public static function reloadTaskWorker(): bool
-    {
-        $masterPid = Server::getMasterPid();
-        if ($masterPid > 0) {
-            return ProcessHelper::killBySig($masterPid, SIGUSR2);
-        }
-        return false;
-    }
-
-    public static function getMasterPid(): int
-    {
-        $masterPid = @file_get_contents(ProcessHelper::getMasterPidFile());
-        if (intval($masterPid) > 0 && is_numeric($masterPid)) {
-            if (\Swoole\Process::kill($masterPid, 0)) {
-                return $masterPid;
-            }
-        }
-        return 0;
-    }
-
     public function onStart($server)
     {
-        ProcessHelper::saveMasterPid($server->master_pid);
-        $pidMaster = self::getMasterPid();
-        Log::info("Resque started, Master pid is: {$pidMaster}.");
-        ProcessHelper::setProcessName("Master: p{$pidMaster}");
+        Process::setMasterPid($server->master_pid);
+        $masterPid = Process::getMasterPid();
+        Log::info(" Serve started, Master pid is: {$masterPid}.");
+        Process::daemonize("Master: p{$masterPid}");
     }
 
     public function onManagerStart($server)
     {
-        ProcessHelper::setProcessName('Manager');
+        Process::daemonize('Manager');
     }
 }

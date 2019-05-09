@@ -5,7 +5,7 @@ namespace Serve\Core;
 use Serve\Colors\Color;
 use Serve\Colors\ColorText;
 
-class Extension
+class Environment
 {
     private $versionCompare = [
         'swoole' => ['4.0.0', '>='],
@@ -87,7 +87,7 @@ class Extension
         }
     }
 
-    public static function checkFailed(): void
+    public static function checkOrFailed(): void
     {
         (new self())->check();
     }

@@ -8,16 +8,25 @@ namespace Serve\Core;
  */
 class RedisClient
 {
-    private $delayRedis = null;
+    private static $delayRedis = null;
 
     public function make(): ?\Delayer\Client
     {
-        $this->delayRedis = new \Delayer\Client([
-            'host' => env('redis.host'),
-            'port' => env('redis.port'),
-            'password' => env('redis.password'),
-            'database' => env('redis.database'),
-        ]);
-        return $this->delayRedis;
+        if (empty(self::$delayRedis))
+        {
+            self::$delayRedis = new \Delayer\Client([
+                'host' => env('redis.host'),
+                'port' => env('redis.port'),
+                'password' => env('redis.password'),
+                'database' => env('redis.database'),
+            ]);
+        }
+//        $this->delayRedis = new \Delayer\Client([
+//            'host' => env('redis.host'),
+//            'port' => env('redis.port'),
+//            'password' => env('redis.password'),
+//            'database' => env('redis.database'),
+//        ]);
+        return  self::$delayRedis;
     }
 }

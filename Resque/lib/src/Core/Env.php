@@ -10,22 +10,43 @@ class Env
      */
     private static $config = null;
 
-    public static function get(string $name): ?string
+    /**
+     * @param string $name
+     * @return null
+     * 获取配置文件参数
+     */
+    public static function get(string $name)
     {
-        $data = self::$config ?? null;
+        $config = self::$config ?? null;
+
         // 有数据,进行解析
-        if ($data) {
-            list($key, $val) = explode('.', $name);
-            return $data[$key][$val] ?? null;
+        if ($config) {
+            // key.name
+            if(substr_count( $name, '.') == 1)
+            {
+                list($key, $val) = explode('.', $name);
+                // env('queue')
+                if (isset($key) && isset($val))
+                {
+                    return $config[$key][$val] ?? null;
+                }
+
+                if (isset($key))
+                {
+                    return $config[$key] ?? null;
+                }
+            }
         }
-        return $data;
+        return $config;
     }
 
-    //public static function load(): ?array
+    /**
+     * 加载配置文件queue.php
+     */
     public static function load()
     {
-        $config = APP_PATH . DS . 'config' . DS . 'Serve.ini';
+        $config = APP_PATH . DS . 'config' . DS . 'main.php';
         require_once APP_PATH . DS . 'functions' . DS . 'functions.php';
-        self::$config = parse_ini_file($config, true);
+        self::$config = require_once $config;
     }
 }

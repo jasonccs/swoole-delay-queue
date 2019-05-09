@@ -2,17 +2,23 @@
 
 namespace Serve\Resque;
 
-use app\logic\Job;
-use Serve\Colors\Color;
-use Serve\Colors\ColorText;
+use app\job\Job;
 use Serve\Core\ClientFactory;
 use Serve\Core\Log;
-use Serve\Core\ProcessHelper;
+use Serve\Core\Process;
 use Serve\Core\Timer;
+use Serve\Exception\BaseException;
 use Serve\Exception\JobClassNotFoundException;
-use Serve\Interfaces\EventInterface;
+use Serve\Interfaces\IEvent;
+use Serve\Interfaces\IJob;
 
-class Serve extends Server implements EventInterface
+/**
+ * Class Serve
+ * @package Serve\Resque
+ * @version v1.0.1
+ * @author twomiao
+ */
+class Serve extends Server implements IEvent
 {
     private $job = null;
 
@@ -21,6 +27,7 @@ class Serve extends Server implements EventInterface
         if (function_exists('opcache_reset')) {
             \opcache_reset();
         }
+
         try {
             if (!class_exists(Job::class)) {
                 throw new JobClassNotFoundException();
@@ -33,40 +40,62 @@ class Serve extends Server implements EventInterface
 
         $this->job = new Job();
         if ($server->taskworker) {
-            ProcessHelper::setProcessName("TaskWorker:{$workerId}");
-            Log::info("TaskWorker: {$workerId} started.");
+            Process::daemonize("Task:{$workerId}");
+            Log::info(" Task:{$workerId} started.");
             $server->pdo = ClientFactory::makeClient('mysql');
         } else {
-            ProcessHelper::setProcessName("Worker:{$workerId}");
-            Log::info("Worker: {$workerId} started.");
-            $server->redis = ClientFactory::makeClient('predis');
+            Process::daemonize("Worker:{$workerId}");
+            Log::info(" Worker:{$workerId} started.");
+            $server->redis = ClientFactory::makeClient('redis');
 
-            $server->tick(1000, function($timerId) use($server) {
-                $data = $this->job->dequeue($server->redis);
-                // 只要消息不为空,就投递
-                if (!empty($data)) {
-                    $server->task($data);
+            try {
+                if ($this->job instanceof IJob === false) {
+                    throw new JobClassNotFoundException([
+                        'code' => -2,
+                        'message' => 'The IJob interface is not implemented.'
+                    ]);
                 }
-                // todo:: 某种情况关闭计时器 $server->clearTimer($timerId);
-            });
+
+                // 每秒钟去队列查看是否有数据,如果存在数据发送给TASK 进程处理
+                $server->tick(1000, function ($timerId) use ($server) {
+                    $data = $this->job->getData($server->redis);
+                    // 只要消息不为空,就投递
+                    if (!empty($data) && is_string($data)) {
+                        $server->task($data);
+                    }
+                    // todo:: 某种情况关闭计时器 $server->clearTimer($timerId);
+                });
+            } catch (BaseException $e) { // 捕捉用户的异常
+                Log::error($e->getMessage());
+                Log::error("shutdown now server.");
+                $server->shutdown();
+            }
         }
     }
 
     public function onTask($server, $taskId, $reactorId, $data)
     {
-        $this->job->business($server->pdo, $data);
-        $pid = posix_getpid();
-        $data = "task:{$pid} has been completed. " .substr($data, 0, 45) . ' .....';
-        $server->finish($data);
+        $job = json_decode($data, true);
+        if (!empty($job)) {
+            $this->job->doJob($server->pdo, $job);
+            $pid = posix_getpid();
+            $data = "task:{$pid} has been completed. " . substr($data, 0, 45) . ' .....';
+            $server->finish($data);
+        } else {
+            Log::notice($data);
+        }
     }
 
     public function onFinish($server, $taskId, $data)
     {
-        Log::debug($data);
+        $this->job->finish($data);
     }
 
-    final public static function run()
+    /**
+     * 启动Swoole
+     */
+    final public function run()
     {
-        (new self)->getServe()->start();
+        $this->getSwoole()->start();
     }
 }

@@ -13,6 +13,6 @@ class MailBox
 {
     static function send()
     {
-        print "MailBox::send success" . PHP_EOL;
+        print "{QQ Mailer}::邮件定时发送" . PHP_EOL;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Serve\Core;
 
+use Serve\Resque\ControlPanel;
 use Serve\Resque\Serve;
 use Serve\Resque\Server;
 
@@ -12,7 +13,24 @@ use Serve\Resque\Server;
  */
 class Command
 {
+    /**
+     * @var string
+     * stop、start、reload、reload::all
+     */
     private $cmd = '';
+
+    private $help = 'Usage: php Serve [options]
+        Options:
+        start/Start Serve services.
+        stop/Stop Serve services.
+        reload/Smoothing restart task process.
+        reload:all/Smooth restart of all processes.';
+
+    /**
+     * @var string
+     * 服务名称
+     */
+    private $name = "Serve";
 
     public function __construct($cmd)
     {
@@ -30,46 +48,42 @@ class Command
         Log::init();
         switch (strtolower($this->cmd)) {
             case 'start':
-                if (!Server::isRunning()) {
-                    Serve::run();
+                if (!ControlPanel::isRunning()) {
+                    (new Serve())->run();
                 } else {
-                    $masterPid = Server::getMasterPid();
-                    Log::info("Resque is running, Master pid is: {$masterPid}.");
+                    $masterPid = Process::getMasterPid();
+                    Log::info("{$this->name} is running, Master pid is: {$masterPid}.");
                 }
                 break;
             case 'stop':
-                if (Server::isRunning()) {
-                    $stop = ProcessHelper::killBySig(Server::getMasterPid(), SIGTERM);
-                    if ($stop) {
-                        Log::info("Resque has stopped.");
-                    }
-                    // return false  -> 没有运行
-                    if (!$stop) {
-                        Log::info("Resque is not running.");
+                if (ControlPanel::isRunning()) {
+                    if (ControlPanel::stop()) {
+                        Log::info("{$this->name} has stopped.");
+                    } else {
+                        // stop error
+                        Log::error("{$this->name} 服务停止失败.");
                     }
                 } else {
-                    Log::info("Resque is not running.");
+                    Log::info("{$this->name} is not running.");
                 }
                 break;
             case 'reload:all':
                 // 1. reload worker and task process.
-                $reloadOk = Server::reloadAll();
-                if ($reloadOk) {
-                    Log::info("Task process and worker process reload succeed.");
-                }
-                if (!$reloadOk) {
-                    Log::info("Resque is not running.");
+                if (ControlPanel::reloadAll()) {
+                    Log::info(" Reload task and worker succeeded in the process");
+                } else {
+                    Log::info("{$this->name} is not running.");
                 }
                 break;
             case 'reload':
-                if (Server::reloadTaskWorker()) {
-                    Log::info("Task process reload succeed.");
+                if (ControlPanel::reloadTask()) {
+                    Log::info(" Reload task succeeded in the process.");
                 } else {
-                    Log::info("Resque is not running.");
+                    Log::info("{$this->name} is not running.");
                 }
                 break;
             default:
-                exit("Usage: php serve start|stop|reload|reload:all" . PHP_EOL);
+                exit($this->help . PHP_EOL);
                 break;
         }
     }

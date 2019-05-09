@@ -1,13 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/4/16 0016
- * Time: 下午 17:54
- */
-
 namespace Serve\Exception;
 
+/**
+ * Class JobClassNotFoundException
+ * @package Serve\Exception
+ * @author twomiao
+ * @version v1.0.1
+ */
 class JobClassNotFoundException extends BaseException
 {
     public $code = 404;

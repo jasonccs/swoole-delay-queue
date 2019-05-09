@@ -1,7 +1,7 @@
 <?php
 namespace Serve\Interfaces;
 
-interface ClientInterface
+interface IClient
 {
     public static function makeClient(string $name);
 }

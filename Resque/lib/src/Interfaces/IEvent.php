@@ -1,7 +1,7 @@
 <?php
 namespace Serve\Interfaces;
 
-interface EventInterface
+interface IEvent
 {
     public function onWorkerStart($server, $workerId);
 

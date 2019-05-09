@@ -1,4 +1,5 @@
 <?php
+
 namespace Serve\Core;
 
 use Serve\Colors\Color;
@@ -22,6 +23,9 @@ class Log
         if (class_exists('SeasLog')) {
             $logDir = self::getLogDir();
             self::$seaslog = true;
+            if (!is_dir($logDir)) {
+                @mkdir($logDir, 0777, true);
+            }
             SeasLog::setBasePath($logDir);
         }
     }
@@ -36,7 +40,7 @@ class Log
 
     public static function getLogDir()
     {
-        return APP_PATH . env('swoole.log_dir');
+        return APP_PATH . env('swoole.log_dir') . date('Ymd') . DS;
     }
 
     /**

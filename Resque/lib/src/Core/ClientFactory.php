@@ -1,19 +1,19 @@
 <?php
 namespace Serve\Core;
 
-use Serve\Interfaces\ClientInterface;
+use Serve\Interfaces\IClient;
 
 /**
  * Class ClientFactory
  * @package Serve\Core
  * @author twomiao
  */
-class ClientFactory implements ClientInterface
+class ClientFactory implements IClient
 {
-    public static function makeClient(string $clientName)
+    public static function makeClient(string $name)
     {
-        switch ($clientName) {
-            case 'predis':
+        switch ($name) {
+            case 'delayer':
             case 'redis':
                 return (new RedisClient())->make();
                 break;
