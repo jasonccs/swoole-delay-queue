@@ -34,6 +34,8 @@ class Command
 
     public function __construct($cmd)
     {
+        Env::load();
+        Log::init();
         //register_argc_argv
         if (ini_get('register_argc_argv')) {
             $this->cmd = $cmd[1] ?? '';
@@ -44,8 +46,6 @@ class Command
 
     public function execute()
     {
-        Env::load();
-        Log::init();
         switch (strtolower($this->cmd)) {
             case 'start':
                 if (!ControlPanel::isRunning()) {
