@@ -4,20 +4,20 @@
 - 仅支持Redis 作为延时队列
 
 #### 环境要求：
-* PHP >= 7.0
-* Swoole >= 4.x 备注: 实际版本应该会更低,以我环境为标准罢了
+* PHP >= 7.2
+* Swoole >= 4.0.0 提醒: Swoole 版本应该要求更低,但尽量升级到最新版吧！
 * redis 延时特性:<br/>
     Delayer 延时中间件下载: wget https://github.com/mix-basic/delayer/releases<br/>
     Delayer PHP客户端具体详情：https://github.com/mix-basic/delayer-client-php<br/>
  
 #### 运行如图：
 ##### 启动命令 "php serve start"
-![image](https://github.com/twomiao/Serve/raw/master/img/start.png "启动画面")
-![image](https://github.com/twomiao/Serve/raw/master/img/test.png "热更新代码前")
-![image](https://github.com/twomiao/Serve/raw/master/img/daemon.png "守护进程")
-##### 热更新命令 "php serve reload",发现少了文字提醒“MailBox::send success”
-![image](https://github.com/twomiao/Serve/raw/master/img/reload.png "热更新命令执行后")
-![image](https://github.com/twomiao/Serve/raw/master/img/reload02.png "热更新代码后")
+![image](https://github.com/twomiao/Serve/raw/master/img/test.png "启动界面")
+![image](https://github.com/twomiao/Serve/raw/master/img/start.png "消费处理中")
+![image](https://github.com/twomiao/Serve/raw/master/img/daemon.png "守护进程结构")
+##### 平滑重启命令 “php serve reload”,新增加文字提醒 “233333”
+![image](https://github.com/twomiao/Serve/raw/master/img/reload.png "未平滑重启")
+![image](https://github.com/twomiao/Serve/raw/master/img/reload02.png "已平滑重启")
 
 # How to use?
 
@@ -129,7 +129,7 @@ class Job implements IJob
     public function finish($data)
     {
         Log::debug($data);
-//        print "233333333333333333333\n";
+//        print "2333\n";
         // TODO: Implement finish() method.
     }
 }
