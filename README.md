@@ -5,7 +5,8 @@
 
 #### 环境要求：
 * PHP >= 7.2
-* Swoole >= 4.0.0 提醒: Swoole 版本应该要求更低,但尽量升级到最新版吧！
+* Swoole >= 4.0.0 提醒: Swoole 版本应该要求更低,但尽量升级到最新版吧！ (扩展)
+* SeasLog (扩展)
 * redis 延时特性:<br/>
     Delayer 延时中间件下载: wget https://github.com/mix-basic/delayer/releases<br/>
     Delayer PHP客户端具体详情：https://github.com/mix-basic/delayer-client-php<br/>
