@@ -2,6 +2,7 @@
 
 namespace Serve\Resque;
 
+use Serve\Core\Check;
 use Serve\Core\Environment;
 use Serve\Core\Log;
 use Serve\Core\Process;
@@ -35,9 +36,8 @@ abstract class Server
 
     protected function getSwoole(): ?\Swoole\Server
     {
-        date_default_timezone_set('Asia/Shanghai');
-
-        Environment::checkOrFailed();
+        // 检测环境是否通过
+        Check::pass();
 
         $this->_serve = new \Swoole\Server(env('swoole.host'), env('swoole.port'));
 
@@ -75,7 +75,7 @@ abstract class Server
     {
         Process::setMasterPid($server->master_pid);
         $masterPid = Process::getMasterPid();
-        Log::info(" Serve started, Master pid is: {$masterPid}.");
+        Log::info("Serve started, Master pid is: {$masterPid}.");
         Process::daemonize("Master: p{$masterPid}");
     }
 

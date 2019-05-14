@@ -7,8 +7,7 @@ namespace Serve\Exception;
  * @author twomiao
  * @version v1.0.1
  */
-class JobClassNotFoundException extends BaseException
+class JobMissingException extends JobException
 {
-    public $code = 404;
-    public $message = 'No class Job was found.';
+
 }

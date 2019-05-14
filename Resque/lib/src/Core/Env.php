@@ -17,7 +17,7 @@ class Env
      */
     public static function get(string $name)
     {
-        $config = self::$config ?? null;
+        $config = static::$config ?? null;
 
         // 有数据,进行解析
         if ($config) {
@@ -46,7 +46,7 @@ class Env
     public static function load()
     {
         $config = APP_PATH . DS . 'config' . DS . 'main.php';
-        require_once APP_PATH . DS . 'functions' . DS . 'functions.php';
-        self::$config = require_once $config;
+        require_once APP_PATH . DS . 'func' . DS . 'func.php';
+        static::$config = require_once $config;
     }
 }

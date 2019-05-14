@@ -8,15 +8,15 @@ namespace Serve\Colors;
  */
 class Color
 {
-    public static function println($title, $color = ''): void
+    public static function println(string $message, string $color = '1;37'): void
     {
-        $color = $color ?? '0m';
-        print  "\033[{$color} {$title} \033[0m" . PHP_EOL;
+        $color = $color ?? '1;37';
+        print  "\033[{$color}m {$message} \033[0m" . PHP_EOL;
     }
 
-    public static function print($title, $color = ''): void
+    public static function print(string $message, string $color = '1;37'): void
     {
-        $color = $color ?? '0m';
-        print  "\033[{$color} {$title} \033[0m";
+        $color = $color ?? '1;37';
+        print  "\033[{$color}m {$message} \033[0m";
     }
 }

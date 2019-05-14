@@ -12,21 +12,15 @@ class RedisClient
 
     public function make(): ?\Delayer\Client
     {
-        if (empty(self::$delayRedis))
+        if (empty(static::$delayRedis))
         {
-            self::$delayRedis = new \Delayer\Client([
+            static::$delayRedis = new \Delayer\Client([
                 'host' => env('redis.host'),
                 'port' => env('redis.port'),
                 'password' => env('redis.password'),
                 'database' => env('redis.database'),
             ]);
         }
-//        $this->delayRedis = new \Delayer\Client([
-//            'host' => env('redis.host'),
-//            'port' => env('redis.port'),
-//            'password' => env('redis.password'),
-//            'database' => env('redis.database'),
-//        ]);
         return  self::$delayRedis;
     }
 }

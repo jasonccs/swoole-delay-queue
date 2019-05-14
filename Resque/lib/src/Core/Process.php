@@ -1,4 +1,5 @@
 <?php
+
 namespace Serve\Core;
 
 
@@ -28,7 +29,7 @@ class Process extends \Swoole\Process
      */
     public static function daemonize(string $processName): ?bool
     {
-        $processName = sprintf(self::PROCESS_NAME_PREFIX, $processName);
+        $processName = sprintf(static::PROCESS_NAME_PREFIX, $processName);
         if (function_exists('cli_set_process_title')) {
             \cli_set_process_title($processName);
             return true;

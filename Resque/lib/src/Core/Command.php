@@ -34,8 +34,7 @@ class Command
 
     public function __construct($cmd)
     {
-        Env::load();
-        Log::init();
+        $this->initParams();
         //register_argc_argv
         if (ini_get('register_argc_argv')) {
             $this->cmd = $cmd[1] ?? '';
@@ -46,7 +45,8 @@ class Command
 
     public function execute()
     {
-        switch (strtolower($this->cmd)) {
+        $cmd = strtolower($this->cmd);
+        switch ($cmd) {
             case 'start':
                 if (!ControlPanel::isRunning()) {
                     (new Serve())->run();
@@ -70,14 +70,14 @@ class Command
             case 'reload:all':
                 // 1. reload worker and task process.
                 if (ControlPanel::reloadAll()) {
-                    Log::info(" Reload task and worker succeeded in the process");
+                    Log::info("Reload task and worker succeeded in the process");
                 } else {
                     Log::info("{$this->name} is not running.");
                 }
                 break;
             case 'reload':
                 if (ControlPanel::reloadTask()) {
-                    Log::info(" Reload task succeeded in the process.");
+                    Log::info("Reload task succeeded in the process.");
                 } else {
                     Log::info("{$this->name} is not running.");
                 }
@@ -86,5 +86,15 @@ class Command
                 exit($this->help . PHP_EOL);
                 break;
         }
+    }
+
+    /**
+     * 初始化参数
+     */
+    public function initParams()
+    {
+        date_default_timezone_set('Asia/Shanghai');
+        Env::load();
+        Log::init();
     }
 }

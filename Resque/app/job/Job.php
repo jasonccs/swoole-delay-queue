@@ -64,15 +64,15 @@ class Job implements IJob
                 break;
         }
         /* 演示db()函数数据库操作使用
-    if ($data !== false)
-      {
-          $order = db()->get($this->tableName, ['id', 'order_stats', 'order_sn', 'create_at'],
-              [
-                  "{$this->tableName}.id" => 1
-              ]
-          );
-          var_dump($order);
-      }*/
+        if ($data !== false)
+          {
+              $order = db()->get($this->tableName, ['id', 'order_stats', 'order_sn', 'create_at'],
+                  [
+                      "{$this->tableName}.id" => 1
+                  ]
+              );
+              var_dump($order);
+          }*/
     }
 
     /**

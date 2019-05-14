@@ -25,3 +25,5 @@ if (!function_exists('db')) {
         return \Serve\Core\ClientFactory::makeClient($db);
     }
 }
+
+//todo:: 可以自行扩展函数使用

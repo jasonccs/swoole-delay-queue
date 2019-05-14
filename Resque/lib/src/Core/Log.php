@@ -21,8 +21,8 @@ class Log
     public static function init()
     {
         if (class_exists('SeasLog')) {
-            $logDir = self::getLogDir();
-            self::$seaslog = true;
+            $logDir = static::getLogDir();
+            static::$seaslog = true;
             if (!is_dir($logDir)) {
                 @mkdir($logDir, 0777, true);
             }
@@ -33,7 +33,7 @@ class Log
     //代理seaglog的静态方法，如 SeasLog::debug
     public static function __callStatic($name, $arguments)
     {
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             forward_static_call_array(['SeasLog', $name], $arguments);
         }
     }
@@ -52,11 +52,9 @@ class Log
      */
     public static function debug($message, array $context = array(), $module = '')
     {
-        Color::print(self::setTextFormat('DEBUG'), ColorText::FG_YELLOW);
-        Color::println($message, ColorText::FG_GREEN);
-
+        Color::println(static::setTextFormat('DEBUG', $message), ColorText::FG_BROWN);
         #$level = SEASLOG_DEBUG
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::debug($message, $context, $module);
         }
     }
@@ -70,16 +68,16 @@ class Log
      */
     public static function info($message, array $context = array(), $module = '')
     {
-        Color::println(self::setTextFormat('INFO', $message), ColorText::FG_BLUE);
+        Color::println(static::setTextFormat('INFO', $message), ColorText::FG_CYAN);
         #$level = SEASLOG_INFO
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::info($message, $context, $module);
         }
     }
 
     private static function setTextFormat($level, $text = ''): string
     {
-        return sprintf("%s [ {$level} ] => {$text}", date('Y-m-d H:i:s'));
+        return sprintf("%s [ Serve ] [ {$level} ] => {$text}", date('Y-m-d H:i:s'));
     }
 
     /**
@@ -92,7 +90,7 @@ class Log
     public static function notice($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_NOTICE
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::notice($message, $context, $module);
         }
     }
@@ -106,9 +104,9 @@ class Log
      */
     public static function warning($message, array $context = array(), $module = '')
     {
-        Color::println(self::setTextFormat('WARNING', $message), ColorText::FG_RED);
+        Color::println(static::setTextFormat('WARNING', $message), ColorText::FG_YELLOW);
         #$level = SEASLOG_WARNING
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::warning($message, $context, $module);
         }
     }
@@ -122,9 +120,9 @@ class Log
      */
     public static function error($message, array $context = array(), $module = '')
     {
-        Color::println(self::setTextFormat("ERROR", $message), ColorText::FG_RED);
+        Color::println(static::setTextFormat("ERROR", $message), ColorText::FG_RED);
         #$level = SEASLOG_ERROR
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::error($message, $context, $module);
         }
     }
@@ -139,7 +137,7 @@ class Log
     public static function critical($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_CRITICAL
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::critical($message, $context, $module);
         }
     }
@@ -154,7 +152,7 @@ class Log
     public static function alert($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_ALERT
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::alert($message, $context, $module);
         }
     }
@@ -169,7 +167,7 @@ class Log
     public static function emergency($message, array $context = array(), $module = '')
     {
         #$level = SEASLOG_EMERGENCY
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::emergency($message, $context, $module);
         }
     }
@@ -184,7 +182,7 @@ class Log
      */
     public static function log($level, $message, array $context = array(), $module = '')
     {
-        if (self::$seaslog) {
+        if (static::$seaslog) {
             SeasLog::log($level, $message, $context, $module);
         }
     }
@@ -203,6 +201,6 @@ class Log
             '{trace}' => $e->getTraceAsString(),
         ];
         $message = implode(' | ', array_keys($array));
-        self::emergency($message, $array);
+        static::emergency($message, $array);
     }
 }

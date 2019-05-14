@@ -6,9 +6,7 @@ use app\job\Job;
 use Serve\Core\ClientFactory;
 use Serve\Core\Log;
 use Serve\Core\Process;
-use Serve\Core\Timer;
-use Serve\Exception\BaseException;
-use Serve\Exception\JobClassNotFoundException;
+use Serve\Exception\JobMissingException;
 use Serve\Interfaces\IEvent;
 use Serve\Interfaces\IJob;
 
@@ -30,32 +28,32 @@ class Serve extends Server implements IEvent
 
         try {
             if (!class_exists(Job::class)) {
-                throw new JobClassNotFoundException();
+                throw new JobMissingException();
             }
-        } catch (JobClassNotFoundException $e) {
+            $this->job = new Job();
+
+            if ($this->job instanceof IJob === false) {
+                throw new JobMissingException([
+                    'code' => -2,
+                    'message' => 'The Job class is not defined.'
+                ]);
+            }
+        } catch (JobMissingException $e) {
             Log::error($e->getMessage());
             Log::error("shutdown now server.");
             $server->shutdown();
         }
 
-        $this->job = new Job();
         if ($server->taskworker) {
             Process::daemonize("Task:{$workerId}");
-            Log::info(" Task:{$workerId} started.");
+            Log::info("Task:{$workerId} started.");
             $server->pdo = ClientFactory::makeClient('mysql');
         } else {
             Process::daemonize("Worker:{$workerId}");
-            Log::info(" Worker:{$workerId} started.");
+            Log::info("Worker:{$workerId} started.");
             $server->redis = ClientFactory::makeClient('redis');
 
             try {
-                if ($this->job instanceof IJob === false) {
-                    throw new JobClassNotFoundException([
-                        'code' => -2,
-                        'message' => 'The IJob interface is not implemented.'
-                    ]);
-                }
-
                 // 每秒钟去队列查看是否有数据,如果存在数据发送给TASK 进程处理
                 $server->tick(1000, function ($timerId) use ($server) {
                     $data = $this->job->getData($server->redis);
@@ -65,10 +63,8 @@ class Serve extends Server implements IEvent
                     }
                     // todo:: 某种情况关闭计时器 $server->clearTimer($timerId);
                 });
-            } catch (BaseException $e) { // 捕捉用户的异常
+            } catch (\Exception $e) {
                 Log::error($e->getMessage());
-                Log::error("shutdown now server.");
-                $server->shutdown();
             }
         }
     }
@@ -82,7 +78,7 @@ class Serve extends Server implements IEvent
             $data = "task:{$pid} has been completed. " . substr($data, 0, 45) . ' .....';
             $server->finish($data);
         } else {
-            Log::notice($data);
+            Log::debug($data);
         }
     }
 

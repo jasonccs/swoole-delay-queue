@@ -3,15 +3,15 @@
 namespace Serve\Exception;
 
 /**
- * Class BaseException
+ * Class JobException
  * @package Serve\Exception
  * @version v1.0.1
  * @author twomiao
  */
-class BaseException extends \Exception
+class JobException extends \Exception
 {
-    public $code = 0;
-    public $message = '';
+    public $code = -1;
+    public $message = 'No class Job was found.';
 
     public function __construct(array $e = [
         'code' => '',
