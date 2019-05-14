@@ -31,5 +31,10 @@ class Check
         if (version_compare(SWOOLE_VERSION, '4.0.0', '<')) {
             exit('Your current Swoole version is ' . SWOOLE_VERSION . ', and requires >= 4.0.0' . PHP_EOL);
         }
+        
+        if (!extension_loaded('SeasLog'))
+        {
+            exit('The SeasLog extension is not installed.' . PHP_EOL);
+        }
     }
 }
