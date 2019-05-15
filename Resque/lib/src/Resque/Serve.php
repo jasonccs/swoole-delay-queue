@@ -28,14 +28,17 @@ class Serve extends Server implements IEvent
 
         try {
             if (!class_exists(Job::class)) {
-                throw new JobMissingException();
+                throw new JobMissingException([
+                    'code' => -1,
+                    'message' => 'The Job class is not defined.'
+                ]);
             }
             $this->job = new Job();
 
             if ($this->job instanceof IJob === false) {
                 throw new JobMissingException([
                     'code' => -2,
-                    'message' => 'The Job class is not defined.'
+                    'message' => 'The Job class does not implement the IJob interface.'
                 ]);
             }
         } catch (JobMissingException $e) {
@@ -45,12 +48,13 @@ class Serve extends Server implements IEvent
         }
 
         if ($server->taskworker) {
-            Process::daemonize("Task:{$workerId}");
-            Log::info("Task:{$workerId} started.");
+            //(worker:01) started.
+            Process::daemonize("(task:{$workerId})");
+            Log::info("Serve (task:{$workerId}) started.");
             $server->pdo = ClientFactory::makeClient('mysql');
         } else {
-            Process::daemonize("Worker:{$workerId}");
-            Log::info("Worker:{$workerId} started.");
+            Process::daemonize("(worker:{$workerId})");
+            Log::info("Serve (worker:{$workerId}) started.");
             $server->redis = ClientFactory::makeClient('redis');
 
             try {
@@ -58,7 +62,7 @@ class Serve extends Server implements IEvent
                 $server->tick(1000, function ($timerId) use ($server) {
                     $data = $this->job->getData($server->redis);
                     // 只要消息不为空,就投递
-                    if (!empty($data) && is_string($data)) {
+                    if ($this->valueString($data) !== false) {
                         $server->task($data);
                     }
                     // todo:: 某种情况关闭计时器 $server->clearTimer($timerId);
@@ -73,10 +77,11 @@ class Serve extends Server implements IEvent
     {
         $job = json_decode($data, true);
         if (!empty($job)) {
-            $this->job->doJob($server->pdo, $job);
-            $pid = posix_getpid();
-            $data = "task:{$pid} has been completed. " . substr($data, 0, 45) . ' .....';
-            $server->finish($data);
+            // 返回不是空的并且是字符串就发送给finish 回调函数处理任务
+            $done = $this->job->doJob($server->pdo, $job);
+            if ($this->valueString($done) !== false) {
+                $server->finish($done);
+            }
         } else {
             Log::debug($data);
         }
@@ -93,5 +98,18 @@ class Serve extends Server implements IEvent
     final public function run()
     {
         $this->getSwoole()->start();
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     * 非空并且为字符串
+     */
+    private function valueString($data): bool
+    {
+        if (!empty($data) && is_string($data)) {
+            return true;
+        }
+        return false;
     }
 }

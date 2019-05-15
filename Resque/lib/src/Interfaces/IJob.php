@@ -23,7 +23,7 @@ interface IJob
      * @param $data getData() 取出来的数据
      * 业务逻辑操作
      */
-    public function doJob($pdo, $data);
+    public function doJob($db, array $data): ?string;
 
     /**
      * @param $data

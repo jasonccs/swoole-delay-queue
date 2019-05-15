@@ -45,6 +45,7 @@ php serve start
 
 ```php
 <?php
+
 namespace app\job;
 
 use app\db\Order;
@@ -92,22 +93,30 @@ class Job implements IJob
      * @param $data getData() 取出来的数据
      * 业务逻辑操作
      */
-    public function doJob($db, $data): void
+    public function doJob($db, array $data): ?string
     {
-//        var_dump($data);
+        $pid = posix_getpid();
+        $job = "task ({$pid}), succeeded ({$data['order_sn']}).";
+
+        // 举例子：带颜色的打印信息
+        Color::println("233333333333333333333", ColorText::FG_LIGHT_RED);
+
         switch ($data['action']) {
-            // 自动取消订单
-            case Action::CANCELLED:
-                //  待支付订单,直接取消关闭
+            // 超时自动取消订单
+            case Action::ORDER_CANCELLED:
+                // 15分钟未支付,自动关闭订单
                 (new Order($db))->getOrder($data['order_sn'])->cancelled();
-                break;
-            case Action::SEND_EMAIL:
+                // 通过 return 把 $data 传递给FINISH. -> 具体看SWOOLE 文档哈
+                return $job;
+            case Action::MAILER_SEND:
                 MailBox::send(); // 邮件定时发送
                 break;
             default:
                 // 其它操作
                 break;
         }
+        // 如果不想要调用Finish 方法,返回null
+        return null;
         /* 演示db()函数数据库操作使用
         if ($data !== false)
           {
@@ -117,8 +126,7 @@ class Job implements IJob
                   ]
               );
               var_dump($order);
-         }
-        */
+          }*/
     }
 
     /**
@@ -129,8 +137,9 @@ class Job implements IJob
      */
     public function finish($data)
     {
-        Log::debug($data);
-//        print "2333\n";
+        if (!empty($data)) {
+            Log::debug($data);
+        }
         // TODO: Implement finish() method.
     }
 }

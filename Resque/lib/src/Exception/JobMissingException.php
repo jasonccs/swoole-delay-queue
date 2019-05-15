@@ -10,4 +10,5 @@ namespace Serve\Exception;
 class JobMissingException extends JobException
 {
 
+
 }

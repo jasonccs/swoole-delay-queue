@@ -77,7 +77,7 @@ class Log
 
     private static function setTextFormat($level, $text = ''): string
     {
-        return sprintf("%s [ Serve ] [ {$level} ] => {$text}", date('Y-m-d H:i:s'));
+        return sprintf("%s [ {$level} ] => {$text}", date('Y-m-d H:i:s'));
     }
 
     /**

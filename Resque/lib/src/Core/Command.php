@@ -48,39 +48,49 @@ class Command
         $cmd = strtolower($this->cmd);
         switch ($cmd) {
             case 'start':
-                if (!ControlPanel::isRunning()) {
+                $running = ControlPanel::isRunning();
+                // 没有运行
+                if (!$running) {
                     (new Serve())->run();
-                } else {
+                }
+                // 已经运行
+                if ($running) {
                     $masterPid = Process::getMasterPid();
                     Log::info("{$this->name} is running, Master pid is: {$masterPid}.");
                 }
                 break;
             case 'stop':
-                if (ControlPanel::isRunning()) {
-                    if (ControlPanel::stop()) {
+                $isRunning = ControlPanel::isRunning();
+                // 已经运行进行stop
+                if ($isRunning) {
+                    $stopped = ControlPanel::stop();
+                    if ($stopped) {
                         Log::info("{$this->name} has stopped.");
-                    } else {
-                        // stop error
-                        Log::error("{$this->name} 服务停止失败.");
+                        break;
                     }
-                } else {
-                    Log::info("{$this->name} is not running.");
+                    Log::error("{$this->name} 服务停止失败.");
+                    break;
                 }
+                Log::info("{$this->name} is not running.");
                 break;
             case 'reload:all':
                 // 1. reload worker and task process.
-                if (ControlPanel::reloadAll()) {
+                $reload = ControlPanel::reloadAll();
+                // reload 成功
+                if ($reload) {
                     Log::info("Reload task and worker succeeded in the process");
-                } else {
-                    Log::info("{$this->name} is not running.");
+                    break;
                 }
+                Log::info("{$this->name} is not running.");
                 break;
             case 'reload':
-                if (ControlPanel::reloadTask()) {
+                $task = ControlPanel::reloadTask();
+                // task 是否运行
+                if ($task) {
                     Log::info("Reload task succeeded in the process.");
-                } else {
-                    Log::info("{$this->name} is not running.");
+                    break;
                 }
+                Log::info("{$this->name} is not running.");
                 break;
             default:
                 exit($this->help . PHP_EOL);
