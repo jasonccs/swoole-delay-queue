@@ -13,8 +13,8 @@
  
 #### 运行如图：
 ##### 启动命令 "php serve start"
-![image](https://github.com/twomiao/Serve/raw/master/img/test.png "启动界面")
-![image](https://github.com/twomiao/Serve/raw/master/img/start.png "消费处理中")
+![image](https://github.com/twomiao/Serve/raw/master/img/start.png "启动界面")
+![image](https://github.com/twomiao/Serve/raw/master/img/test.png "消费处理中")
 ![image](https://github.com/twomiao/Serve/raw/master/img/daemon.png "守护进程结构")
 ##### 平滑重启命令 “php serve reload”,新增加文字提醒 “233333”
 ![image](https://github.com/twomiao/Serve/raw/master/img/reload.png "未平滑重启")
