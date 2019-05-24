@@ -25,13 +25,15 @@
 ### Install
 
 ```
-git clone https://github.com/twomiao/Serve.git
+  git clone https://github.com/twomiao/Serve.git
+  composer install
 ```
 
 ### Run
 ```
-chmod 777 ./serve
-php serve start
+  $> cd home/Serve/
+  $> chmod 777 ./serve
+  $> php serve start
 ```
 
 ### Serve 启动参数说明
