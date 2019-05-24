@@ -1,0 +1,53 @@
+[2019-05-24 18:20:05 #11668.1]	INFO	Server is shutdown now
+[2019-05-24 18:40:08 #14709.1]	INFO	Server is shutdown now
+[2019-05-24 18:40:19 $14812.0]	INFO	Server is reloading task workers now
+[2019-05-24 18:40:25 $14812.0]	INFO	Server is reloading all workers now
+[2019-05-24 18:42:06 $15053.0]	INFO	Server is reloading all workers now
+[2019-05-24 18:42:43 $15053.0]	INFO	Server is reloading task workers now
+[2019-05-24 18:42:45 $15053.0]	INFO	Server is reloading task workers now
+[2019-05-24 18:42:49 $15053.0]	INFO	Server is reloading all workers now
+[2019-05-24 18:46:26 $16156.0]	INFO	Server is reloading task workers now
+[2019-05-24 19:43:25 $22250.0]	INFO	Server is reloading task workers now
+[2019-05-24 19:46:58 $23930.0]	INFO	Server is reloading task workers now
+[2019-05-24 19:47:37 $23930.0]	INFO	Server is reloading task workers now
+[2019-05-24 19:48:42 $24263.0]	INFO	Server is reloading task workers now
+[2019-05-24 19:57:00 #24262.1]	INFO	Server is shutdown now
+[0;35m 2019-05-24 19:57:27 [Serve][INFO]# Service already running, main process number:25258 [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(10) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(11) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(12) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(8) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(9) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(13) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(14) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# task(15) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(0) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(1) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(2) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(3) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(4) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(5) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(6) started. [0m
+[0;36m 2019-05-24 19:57:27 [Serve][INFO]# worker(7) started. [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;35m 2019-05-24 19:57:49 task (25271), succeeded (2018101712578956648130454). [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;35m 2019-05-24 19:57:49 task (25273), succeeded (2018101712578956648159313). [0m
+[1;35m 2019-05-24 19:57:49 task (25274), succeeded (2018101712578956648514420). [0m
+[1;31m 2333, 平滑重启成功 [0m
+[1;35m 2019-05-24 19:57:49 task (25276), succeeded (2018101712578956648528617). [0m
+[1;35m 2019-05-24 19:57:49 task (25272), succeeded (2018101712578956648535850). [0m
+[1;35m 2019-05-24 19:57:49 task (25277), succeeded (2018101712578956648510931). [0m
+[1;35m 2019-05-24 19:57:49 task (25275), succeeded (2018101712578956648366838). [0m
+[1;35m 2019-05-24 19:57:49 task (25273), succeeded (2018101712578956648663129). [0m
+[1;35m 2019-05-24 19:57:49 task (25271), succeeded (2018101712578956648140206). [0m
+[1;35m 2019-05-24 19:57:49 task (25270), succeeded (2018101712578956648333380). [0m
+[2019-05-24 19:58:03 #25258.1]	INFO	Server is shutdown now
+[2019-05-24 20:00:47 $25719.0]	INFO	Server is reloading task workers now

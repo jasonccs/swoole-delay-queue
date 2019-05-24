@@ -1,50 +1,3 @@
-### Serve 基于Swoole Server 编写的消息队列消费系统
-#### 已支持功能:
-- 支持数据库操作
-- 仅支持Redis 作为延时队列
-
-#### 环境要求：
-* PHP >= 7.2
-* Swoole >= 4.0.0 提醒: Swoole 版本应该要求更低,但尽量升级到最新版吧！ (扩展)
-* SeasLog (扩展)
-* redis 延时特性:<br/>
-    Delayer 延时中间件下载: wget https://github.com/mix-basic/delayer/releases<br/>
-    Delayer PHP客户端具体详情：https://github.com/mix-basic/delayer-client-php<br/>
- 
-#### 运行如图：
-##### 启动命令 "php serve start"
-![image](https://github.com/twomiao/Serve/raw/master/data/start.png "启动界面")
-![image](https://github.com/twomiao/Serve/raw/master/data/test.png "消费处理中")
-![image](https://github.com/twomiao/Serve/raw/master/data/daemon.png "守护进程结构")
-##### 平滑重启命令 “php serve reload”,新增加文字提醒 “2333, 平滑重启成功”
-![image](https://github.com/twomiao/Serve/raw/master/data/reload.png "未平滑重启")
-![image](https://github.com/twomiao/Serve/raw/master/data/reload02.png "已平滑重启")
-
-# How to use?
-
-### Install
-
-```
-git clone https://github.com/twomiao/Serve.git
-```
-
-### Run
-```
-chmod 777 ./serve
-php serve start
-```
-
-### Serve 启动参数说明
-
-- start: 启动 Serve Queue 消费
-- start -d: 守护进程运行
-- reload: 只更新Task 业务代码 (Job::doJob)
-- stop: 停止Serve 服务运行
-- reload:all: 平滑重启Worker 和 Task
-
-### Job Code
-
-```php
 <?php
 
 namespace app\Job;
@@ -93,7 +46,7 @@ class Job implements IJob
         $job = "task (".getmypid()."), succeeded ({$data['order_sn']}).";
 
         // 举例子：带颜色的打印信息
-//        Color::println("233333333333333333333", ColorText::FG_LIGHT_RED);
+//        Color::println("2333, 平滑重启成功", ColorText::FG_LIGHT_RED);
 
         switch ($data['action']) {
             // 超时自动取消订单
@@ -139,4 +92,3 @@ class Job implements IJob
         // TODO: Implement finish() method.
     }
 }
-```

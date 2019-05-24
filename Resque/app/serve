@@ -1,8 +1,0 @@
-<?php
-
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
-defined ('APP_PATH') or define('APP_PATH', __DIR__);
-defined ('DS') or define('DS', DIRECTORY_SEPARATOR);
-
-(new \Serve\Core\Command($argv))->execute();
