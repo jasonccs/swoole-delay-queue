@@ -1,5 +1,5 @@
 {
-  "name": "serve/serve",
+  "name": "twomiao/serve",
   "description": "Redis 延时消息队列，基于swoole 实现的多进程消费端",
   "keywords": [
     "Serve",
@@ -7,22 +7,25 @@
     "Redis",
     "delayed"
   ],
+  "require": {
+    "php": ">=7.2",
+    "ext-swoole": ">=4.0.0",
+    "ext-seaslog": ">=2.0.2",
+    "catfan/medoo": "^1.6",
+    "mix/delayer-client": "^1.0"
+  },
   "homepage": "https://github.com/twomiao/Serve",
-  "license": "Apache-2.0",
-  "authors": [
-    {
-      "name": "twomiao",
-      "email": "995200452@qq.com"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "Serve\\": "lib/src/",
       "app\\": "app/"
     }
   },
-  "require": {
-    "catfan/medoo": "^1.6",
-    "mix/delayer-client": "^1.0"
-  }
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "twomiao",
+      "email": "995200452@qq.com"
+    }
+  ]
 }
