@@ -16,8 +16,8 @@ use Serve\Core\Log;
 class Command
 {
     /**
-     * @var string
-     * stop、start、reload、reload::all
+     * @var mixed|string
+     * stop start reload reload::all
      */
     private $cmd = '';
 
@@ -33,7 +33,7 @@ class Command
      * @var string
      * 服务名称
      */
-    private $name = "Serve";
+    private $name = "Serve-Queue";
 
     private $isDaemon = false;
 
@@ -53,51 +53,47 @@ class Command
     {
         switch (strtolower($this->cmd)) {
             case 'start':
-                $running = ControlPanel::isRunning();
+                $running = Control::isRunning();
                 // 没有运行
                 if (!$running) {
-                    Color::println($this->makeLog(),ColorText::FG_LIGHT_CYAN);
-                    Color::println($this->info(), ColorText::FG_WHITE);
+                    Color::println($this->makeLogo(),ColorText::FG_GREEN);
+                    Color::println($this->info(), ColorText::FG_GREEN);
                     (new Serve($this->isDaemon))->run();
                 }
                 // 已经运行
                 if ($running) {
                     $masterPid = Helper::getMasterPid();
-                    Log::info("Service already running, main process number:{$masterPid}");
-                }//
+                    Log::warning("{$this->name} already running, Master PID:{$masterPid}");
+                }
                 break;
             case 'stop':
-                $isRunning = ControlPanel::isRunning();
+                $isRunning = Control::isRunning();
                 // 已经运行进行stop
                 if ($isRunning) {
-                    $stopped = ControlPanel::stop();
-                    if ($stopped) {
-                        Log::info("Service has stopped");
-                        break;
+                    if (Control::stop()) {
+                        Log::info("{$this->name} has stopped");
+                    } else {
+                        Log::error("{$this->name} Serve failed to stop");
                     }
-                    Log::error("Service Serve failed to stop");
-                    break;
-                }
-                Log::info("Service is not running");
-                break;
-            case 'reload:all':
-                // 1. reload worker and task process.
-                $reload = ControlPanel::reloadAll();
-                // reload 成功
-                if ($reload) {
-                    Log::info("Smooth restart successful");
-                    break;
-                }
-                Log::info("Service is not running");
-                break;
-            case 'reload':
-                $task = ControlPanel::reloadTask();
-                // task 是否运行
-                if ($task) {
-                    Log::info("Task process successfully restarted smoothly");
                     break;
                 }
                 Log::info("{$this->name} is not running");
+                break;
+            case 'reload:all':
+                // 1. reload worker and task process.
+                if (Control::reloadAll()) {
+                    Log::info("Smooth restart successful");
+                } else {
+                    Log::info("{$this->name} is not running");
+                }
+                break;
+            case 'reload':
+                // task 是否运行
+                if (Control::reloadTask()) {
+                    Log::info("Task process successfully restarted smoothly");
+                } else {
+                    Log::info("{$this->name} is not running");
+                }
                 break;
             default:
                 exit($this->help . PHP_EOL);
@@ -117,14 +113,22 @@ class Command
      * 版本信息
      */
     public function info() {
-        return date('Y-m-d H:i:s')." PHP: ".phpversion().", Swoole: ".SWOOLE_VERSION;
+        $serveVersion = $this->getCurrentVersion();
+        $now =  date('Y-m-d H:i:s');
+        $php = phpversion();
+        return "{$now} {$serveVersion}, PHP: {$php}, Swoole: ".SWOOLE_VERSION;
+    }
+
+    public function getCurrentVersion()
+    {
+        return 'Serve-Queue: v1.0.2';
     }
 
     /**
      * @return string
      * logo
      */
-    public function makeLog():string {
+    public function makeLogo():string {
         return '  ___                              ___                            
  / __|  ___   _ _  __ __  ___     / _ \   _  _   ___   _  _   ___ 
  \__ \ / -_) | \'_| \ V / / -_)   | (_) | | || | / -_) | || | / -_)

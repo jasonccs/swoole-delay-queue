@@ -1,0 +1,28 @@
+[2019-06-13 20:44:36 #16737.1]	INFO	Server is shutdown now
+[0;35m 2019-06-13 20:45:37 [Serve][INFO]# Service already running, main process number:16954 [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(14) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(15) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(10) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(11) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(12) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(8) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(13) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# task(9) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(0) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(1) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(5) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(7) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(6) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(2) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(4) started. [0m
+[0;36m 2019-06-13 20:45:37 [Serve][INFO]# worker(3) started. [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[2019-06-13 20:45:37 #16954.1]	INFO	Server is shutdown now
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[0;31m 2019-06-13 20:45:37 [Serve][INFO]# SQLSTATE[HY000] [1049] Unknown database 'webim' [0m
+[2019-06-13 20:45:52 #17012.1]	INFO	Server is shutdown now

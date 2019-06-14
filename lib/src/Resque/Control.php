@@ -5,11 +5,11 @@ namespace Serve\Resque;
 use Serve\Core\Helper;
 
 /**
- * Class ControlPanel
+ * Class Control
  * @package Serve\Resque
  * @author twomiao:<995200452@qq.com>
  */
-class ControlPanel
+class Control
 {
     /**
      * @return bool
@@ -60,7 +60,7 @@ class ControlPanel
     {
         $masterPid = Helper::getMasterPid();
         $ok = Helper::killed($masterPid, SIGTERM);
-        sleep(3);
+        sleep(2);
         return $ok;
     }
 }

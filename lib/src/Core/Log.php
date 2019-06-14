@@ -68,7 +68,8 @@ class Log
      */
     public static function debug($message, array $context = array(), $module = '')
     {
-        Color::println(static::setTextFormat($message), ColorText::FG_CYAN);
+//        Color::println(static::setTextFormat($message, 'DEBUG'), ColorText::FG_CYAN);
+        Color::println(static::setTextFormat($message, 'DEBUG'), ColorText::FG_WHITE);
         #$level = SEASLOG_DEBUG
         if (static::$seaslog) {
             SeasLog::debug($message, $context, $module);
@@ -84,15 +85,15 @@ class Log
      */
     public static function info($message, array $context = array(), $module = '')
     {
-        Color::println(static::setTextFormat($message), ColorText::FG_PURPLE);
+        Color::println(static::setTextFormat($message, 'INFO'));
         if (static::$seaslog) {
             SeasLog::info($message, $context, $module);
         }
     }
 
-    private static function setTextFormat($text = ''): string
+    private static function setTextFormat($text, $level): string
     {
-        return sprintf("%s [Serve][INFO]# {$text}", date('Y-m-d H:i:s'));
+        return sprintf("%s\033[0;33m [Serve-Queue][{$level}]# \033[0m{$text}", date('Y-m-d H:i:s'));
     }
 
     /**
@@ -119,7 +120,7 @@ class Log
      */
     public static function warning($message, array $context = array(), $module = '')
     {
-        Color::println(static::setTextFormat( $message), ColorText::FG_YELLOW);
+        Color::println(static::setTextFormat( $message, 'WARNING'));
         #$level = SEASLOG_WARNING
         if (static::$seaslog) {
             SeasLog::warning($message, $context, $module);
@@ -135,7 +136,7 @@ class Log
      */
     public static function error($message, array $context = array(), $module = '')
     {
-        Color::println(static::setTextFormat( $message), ColorText::FG_RED);
+        Color::println(static::setTextFormat( $message, 'ERROR'), ColorText::FG_RED);
         #$level = SEASLOG_ERROR
         if (static::$seaslog) {
             SeasLog::error($message, $context, $module);

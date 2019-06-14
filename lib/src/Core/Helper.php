@@ -14,7 +14,7 @@ class Helper
     /**
      * 守护进程名称
      */
-    const PROCESS_NAME = "Serve:Queue %s";
+    const PROCESS_NAME = "Serve-Queue: %s";
 
     /**
      * @var string
@@ -23,9 +23,8 @@ class Helper
     private static $_pidFile = '/var/run/serve.pid';
 
     /**
-     * @param string $pName
-     * @return bool|null
-     * 设置进程名
+     * @param string $pname
+     * 设置守护进程名
      */
     public static function pname(string $pname): void
     {
@@ -33,11 +32,13 @@ class Helper
             $pname = sprintf(static::PROCESS_NAME, $pname);
             if (function_exists('cli_set_process_title')) {
                 \cli_set_process_title($pname);
+            } else {
+                if (function_exists('swoole_set_process_name')) {
+                    \swoole_set_process_name($pname);
+                }
             }
-            \swoole_set_process_name($pname);
         }
     }
-
 
     /**
      * @param $pid
