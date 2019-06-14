@@ -12,15 +12,10 @@
     delayer-client-php 文档地址：https://github.com/mix-basic/delayer-client-php<br/>
  
 #### 运行如图：
-##### 启动命令 "php serve start"
+#####    调试模式 "php serve start"
 ![image](https://github.com/twomiao/Serve/raw/master/data/start.png "DEBUG运行界面")
-![image](https://github.com/twomiao/Serve/raw/master/data/test.png "处理业务阶段")
-##### 平滑重启命令 “php serve reload”,新增加文字提醒 “2333, 平滑重启成功”
-![image](https://github.com/twomiao/Serve/raw/master/data/reload.png "平滑重启命令")
-![image](https://github.com/twomiao/Serve/raw/master/data/reload02.png "平滑重启")
-![image](https://github.com/twomiao/Serve/raw/master/data/daemon.png "守护进程运行界面")
-![image](https://github.com/twomiao/Serve/raw/master/data/daemon02.png "守护进程")
-
+##### 守护进程模式 "php serve start -d "
+![image](https://github.com/twomiao/Serve/raw/master/data/daemon.png "守护进程")
 
 ### Serve-Queue 是什么？
 通过Swoole Server 实现消费端并命名为 “Serve-Queue”，Swoole Server API 都可以轻松实现；最新版Swoole 可在多进程worker/task，
