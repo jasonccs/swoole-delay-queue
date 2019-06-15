@@ -123,7 +123,7 @@ class Serve implements IEvent
 
     public function onTask($serveHandler, $taskId, $reactorId, $data)
     {
-        if (is_string($data)) {
+        if ($this->mustBeString($data)) {
             $data = json_decode($data, true);
             if (!empty($data)) {
                 // 返回不是空的并且是字符串就发送给finish 回调函数处理任务
