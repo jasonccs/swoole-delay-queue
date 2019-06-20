@@ -82,7 +82,7 @@ class Helper
         } else {
             @chmod($dir, 0777);
         }
-        @chmod(self::$_pidFile);
+        @chmod(self::$_pidFile, 0777);
         // pid 目录不存在就创建,当然这个目录不可能不存在
         return @file_put_contents(self::$_pidFile, $masterPid);
     }
